@@ -1,0 +1,33 @@
+# Sudoers configuration for PIA VPN Manager
+# Allow josh user to run VPN-related commands without password
+
+# Network configuration commands needed for VPN
+josh ALL=(root) NOPASSWD: /sbin/ip
+josh ALL=(root) NOPASSWD: /bin/ip
+josh ALL=(root) NOPASSWD: /usr/sbin/openvpn
+josh ALL=(root) NOPASSWD: /usr/bin/openvpn
+josh ALL=(root) NOPASSWD: /bin/kill
+josh ALL=(root) NOPASSWD: /usr/bin/kill
+josh ALL=(root) NOPASSWD: /usr/bin/pkill
+josh ALL=(root) NOPASSWD: /bin/pkill
+josh ALL=(root) NOPASSWD: /bin/systemctl restart systemd-resolved
+josh ALL=(root) NOPASSWD: /usr/bin/systemctl restart systemd-resolved
+
+# WireGuard commands
+josh ALL=(root) NOPASSWD: /usr/bin/wg
+josh ALL=(root) NOPASSWD: /usr/bin/wg-quick
+josh ALL=(root) NOPASSWD: /bin/cp
+josh ALL=(root) NOPASSWD: /bin/rm
+josh ALL=(root) NOPASSWD: /usr/bin/tee
+
+# Allow specific VPN scripts to run with full privileges
+josh ALL=(root) NOPASSWD: /home/josh/Sync2/projects/VPN2/pia-vpn-manager/pia-connect.sh
+josh ALL=(root) NOPASSWD: /home/josh/Sync2/projects/VPN2/pia-vpn-manager/pia-disconnect.sh
+josh ALL=(root) NOPASSWD: /home/josh/Sync2/projects/VPN2/pia-vpn-manager/pia-rotate.sh
+josh ALL=(root) NOPASSWD: /home/josh/Sync2/projects/VPN2/pia-vpn-manager/scripts/route-up.sh
+josh ALL=(root) NOPASSWD: /home/josh/Sync2/projects/VPN2/pia-vpn-manager/scripts/route-down.sh
+
+# Allow symlinked commands
+josh ALL=(root) NOPASSWD: /usr/local/bin/pia-connect
+josh ALL=(root) NOPASSWD: /usr/local/bin/pia-disconnect
+josh ALL=(root) NOPASSWD: /usr/local/bin/pia-rotate

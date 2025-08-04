@@ -1,0 +1,83 @@
+# Sensitive Information - Never commit these files
+.env
+*.env
+.env.*
+!.env.template
+
+# PIA VPN Configuration Files with Credentials
+configs/openvpn/auth.txt
+configs/openvpn/*.ovpn
+configs/wireguard/*.conf
+!configs/wireguard/.gitkeep
+
+# Active Connection Files
+configs/current-*.conf
+configs/active-*
+
+# Log Files
+logs/
+*.log
+
+# Backup Files
+*.backup
+*.bak
+*.tmp
+
+# SSH Keys and Certificates (if any custom ones are added)
+*.key
+*.pem
+*.crt
+!ca.rsa.*.crt
+!crl.rsa.*.pem
+
+# System Generated Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE Files
+.vscode/
+.idea/
+*.iml
+
+# Runtime Files
+*.pid
+*.sock
+
+# Test Output
+test-results/
+coverage/
+
+# Package Manager
+node_modules/
+package-lock.json
+yarn.lock
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Temporary directories
+tmp/
+temp/
+cache/
+
+# OS Generated
+.fseventsd/
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# User-specific configuration backups
+*.conf.backup.*
+resolved.conf.backup
+
+# WireGuard runtime files
+wg*.tmp
