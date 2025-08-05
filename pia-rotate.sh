@@ -11,10 +11,18 @@ else
 fi
 
 # Load common functions
+# Store the main script directory before sourcing libraries
+MAIN_SCRIPT_DIR="$SCRIPT_DIR"
 source "$SCRIPT_DIR/lib/common.sh"
+source "$SCRIPT_DIR/lib/servers.sh"
+# Restore the main script directory 
+SCRIPT_DIR="$MAIN_SCRIPT_DIR"
 
 # Load environment variables
 load_env || exit 1
+
+# Load servers configuration
+load_servers || exit 1
 
 # Set default log file
 VPN_LOG_FILE="${VPN_LOG_FILE:-$PROJECT_DIR/logs/pia-vpn.log}"
@@ -44,9 +52,9 @@ Options:
 Examples:
   $0             # Rotate to random server
   $0 us_east     # Rotate to US East server
-  $0 uk          # Rotate to UK server
+  $0 france      # Rotate to France server
 
-Available servers: us_west, us_east, uk
+Use './pia-list-servers.sh --names' to see all available servers
 EOF
 }
 
@@ -71,17 +79,13 @@ while [[ $# -gt 0 ]]; do
                 echo "ERROR: Multiple server names provided" >&2
                 exit 1
             fi
-            shift
             ;;
     esac
+    shift
 done
 
-# Define available servers (only confirmed working servers)
-AVAILABLE_SERVERS=(
-    "us_west"
-    "us_east" 
-    "uk"
-)
+# Get available servers from configuration
+AVAILABLE_SERVERS=($(list_all_servers))
 
 # Function to get current VPN server from config
 get_current_server() {
@@ -115,12 +119,12 @@ fi
 
 # Determine target server
 if [[ -n "$TARGET_SERVER" ]]; then
-    # Check if target server is valid
-    if [[ " ${AVAILABLE_SERVERS[@]} " =~ " ${TARGET_SERVER} " ]]; then
+    # Check if target server is valid using the validate_server function
+    if validate_server "$TARGET_SERVER"; then
         NEW_SERVER="$TARGET_SERVER"
     else
         echo "ERROR: Invalid server '$TARGET_SERVER'"
-        echo "Available servers: ${AVAILABLE_SERVERS[*]}"
+        echo "Use './pia-list-servers.sh --names' to see all available servers"
         exit 1
     fi
 else
